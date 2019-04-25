@@ -48,16 +48,6 @@ SOM calculate the distance of each input vector by each weight of nodes. Distanc
 4. Identifying crime
 5. Etc
 
-*Advantage using SOM :*
-
- - Intuitive method to develop profilling
- - Easy to explain the result with the maps
- - Can visualize high-dimensional data by two-dimensional maps
- 
-*Disadvantage using SOM :*
-
- - Requires clean, numeric data
- 
 
 # SOM Analysis
 
@@ -282,6 +272,17 @@ add.cluster.boundaries(class, c.class$cluster)
 From the results of SOM clustering using unsupervised and supervised, we can conclude that for xyz_campaign_id 916 more interested in the ads displayed are Male and Female aged 30-49 and they are interested in existing ads and then make payments after seeing the ads.
 For xyz_campaign_id 936, those who see the ads is Male and Female in ranging age from 30-39 and they are only interested in the ads that are displayed but to make payments after seeing the ads are small.
 For xyz_campaign_id 1178, which saw more ads for Female and aged 30-34 years.
+
+
+*Advantage using SOM :*
+
+ - Intuitive method to develop profilling
+ - Easy to explain the result with the maps
+ - Can visualize high-dimensional data by two-dimensional maps
+ 
+*Disadvantage using SOM :*
+
+ - Requires clean, numeric data
 
 ## Learning by Building
 
