@@ -124,8 +124,8 @@ From that summary of `ads.model` we know that our som grid has 10x10 dimension.
 # Unsupervised SOM
 ## Visualize of SOM {.tabset .tabset-fade .tabset-pills}
 
-Before visualize SOM model, let's explore list of SOM model. If we want to know that our data position in maps, we look it in `unit.classif`. Each values represent the node number to which this application belong. For example, in first value of application, 26 means that in first application has been claaified into 26 particular nodes. 
-```{r}
+Before visualize SOM model, let's explore list of SOM model. If we want to know that our data position in maps, we look it in `unit.classif`. Each values represent the node number to which this application belong. For example, in first value of application, 1 means that in first application has been claaified into 1 particular nodes. 
+```{r, eval=FALSE}
 ads.model$unit.classif
 ```
 
@@ -144,7 +144,7 @@ head(data.frame(ads.train), 20)
 plot(ads.model, type = "codes", main = "Codes Plot", palette.name = rainbow)
 ```
 
-At the first node, we can say that the input data entered on the first node is characterized from the major variable tat have gender M and age range of 30-34. For the seventh node there is characterized of major variables that have gender F and age range 30-34. Here we can conclude that the node will have neighbors that have similar characteristics to it, that is, like nodes 1 and 7 that are close together because they have gender M and an age range of 30-34 that same.  
+At the first node, we can say that the input data entered on the first node is characterized from the major variable tat have gender M and age range of 30-34. For the second node there is characterized of major variables that have gender M and age range 30-34. Here we can conclude that the node will have neighbors that have similar characteristics to it, that is, like nodes 1 and 2 that are close together because they have gender M and an age range of 30-34 that same.  
 
 ### Training Progress
 
@@ -191,6 +191,8 @@ From the heatmap that is formed, we can know which nodes have the characteristic
 ### Clustering 
 
 Then we want to try to clustering every observation that we have without looking the labels of `xyz_campaign_id`. Like making cluster using k-means, we must determine the number of cluster that we want to make. In this case, we want to use elbow method to determine number of cluster.
+
+
 ```{r, fig.width=20}
 library(factoextra)
 set.seed(100)
@@ -216,7 +218,14 @@ The characteristics for each cluster :
  - Cluster 4 (green) : interest high, impression high, clicks high, spent high, gender Male, age 30-34, total conversion high, approved conversion high
  - Cluster 5 (turqois) : gender Female, age 45-49, interest middle, clicks and spent low
  - Cluster 6 (blue) : gender Female, age 30-34, interest high
- 
+
+```{r}
+# know cluster each data
+ads.cluster <- data.frame(ads.s, cluster = clust$cluster[ads.model$unit.classif])
+tail(ads.cluster, 10)
+
+```
+
 
 # Supervised SOM
 In supervised SOM, we want to classify our SOM model with our dependent variable (xyz_campaign_id). 
@@ -256,7 +265,7 @@ table(Predict = pred$predictions[[2]], Actual = test.label)
 ```
 ## Cluster Boundaries
 ```{r, fig.width=20}
-plot(ads.model, type = "codes", bgcol = rainbow(6)[clust$cluster], main = "Cluster SOM")
+plot(ads.model, type = "codes", bgcol = rainbow(9)[clust$cluster], main = "Cluster SOM")
 add.cluster.boundaries(ads.model, clust$cluster)
 ```
 
