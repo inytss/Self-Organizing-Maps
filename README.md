@@ -1,2 +1,3 @@
 # Self-Organizing-Maps
-This article is about how to know Self-Organizing Maps use ads case.
+
+Self-Organizing Maps first introduce by Teuvo Kohonen. According to the `Wiki`, Self-Organizing Map (SOM) or self-organizing feature map (SOFM) is a type of artificial neural network (ANN) that is trained using unsupervised learning to produce a low-dimensional (typically two-dimensional), discretized representation of the input space of the training samples, called a map, and is therefore a method to do dimensionality reduction. SOM are an unsupervised data visualisation technique that can be used to visualise high-dimensional data sets in lower (typically 2) dimensional representations.SOM also represent clustering concept by grouping the similar features together. So, SOM can use to cluster high-dimensional data sets by doing dimensionality reduction and visualize it using maps.
