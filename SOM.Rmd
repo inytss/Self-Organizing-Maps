@@ -4,7 +4,6 @@ author: "Inayatus"
 date: "`r format(Sys.Date(), '%A, %B-%d-%Y')`"
 output:
   rmdformats::readthedown:
-    
     self_contained : yes
     thumbnails: true
     lightbox: true
@@ -107,6 +106,24 @@ ads.s <- ads %>%
 ads.train <- as.matrix(scale(ads.s[,-1]))
 ```
 
+```{r}
+ads.train <- as.matrix(scale(ads.s[-1]))
+som.grid <- somgrid(xdim =3, ydim=3, topo= "hexagonal")
+set.seed(100)
+ads.som <- som(ads.train, som.grid, rlen = 500)
+
+plot(ads.som, "mapping")
+```
+```{r}
+ads.som$unit.classif
+```
+```{r, fig.width=20}
+plot(ads.som, "codes")
+```
+```{r}
+plot(ads.som, "count")
+```
+
 
 ```{r}
 # make a SOM grid
@@ -138,6 +155,11 @@ plot(ads.model, type = "mapping", pchs = 19, shape = "round")
 
 ```{r}
 head(data.frame(ads.train), 20)
+```
+
+
+```{r, fig.width=20}
+plot(ads.som, "codes")
 ```
 
 ```{r, fig.width=20}
@@ -176,14 +198,14 @@ plot(ads.model, type = "dist.neighbours")
 
 Heatmaps are perhaps the most important visualisation possible for Self-Organising Maps.  A SOM heatmap allows the visualisation of the distribution of a single variable across the map. Typically, a SOM investigative process involves the creation of multiple heatmaps, and then the comparison of these heatmaps to identify interesting areas on the map. It is important to remember that the individual sample positions do not move from one visualisation to another, the map is simply coloured by different variables.
 The default Kohonen heatmap is created by using the type “heatmap”, and then providing one of the variables from the set of node weights. In this case we visualise the average education level on the SOM.
-```{r, fig.width=20}
+```{r, fig.width=5}
 heatmap.som <- function(model){
   for (i in 1:12) {
    plot(model, type = "property", property = getCodes(model)[,i], 
         main = colnames(getCodes(model))[i]) 
   }
 }
-heatmap.som(ads.model)
+heatmap.som(ads.som)
 ```
 
 From the heatmap that is formed, we can know which nodes have the characteristics of each variable whose value is high and the value is low.
@@ -221,6 +243,8 @@ The characteristics for each cluster :
 
 ```{r}
 # know cluster each data
+# ads.model$codes
+
 ads.cluster <- data.frame(ads.s, cluster = clust$cluster[ads.model$unit.classif])
 tail(ads.cluster, 10)
 
@@ -306,6 +330,12 @@ Happy trying!
 [^2] [Ralhan, A. 2018. _Self Organizing Maps_.](https://towardsdatascience.com/self-organizing-maps-ff5853a118d4)
 
 [^3] [Lynn, Shane. Self-Organizing Maps for Customer Segementation using R.](https://www.shanelynn.ie/self-organising-maps-for-customer-segmentation-using-r/)
+
+[^4] [](https://www.superdatascience.com/blogs/self-organizing-maps-soms-how-do-self-organizing-maps-learn-part-1/)
+
+[^5] [](https://www.superdatascience.com/blogs/the-ultimate-guide-to-self-organizing-maps-soms)
+
+
 
  
  
