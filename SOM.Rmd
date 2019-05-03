@@ -4,6 +4,7 @@ author: "Inayatus"
 date: "`r format(Sys.Date(), '%A, %B-%d-%Y')`"
 output:
   rmdformats::readthedown:
+    
     self_contained : yes
     thumbnails: true
     lightbox: true
@@ -94,9 +95,7 @@ As we know that if SOM used numerical data, so if we have chategorical variables
 ```{r}
 # change the chategoric variables to a dummy variables
 ads.s <- ads %>% 
-  mutate(genderF = ifelse(gender == "F", 1, 0),
-         genderM = ifelse(gender == "M", 1, 0),
-         age1 = ifelse(age == "30-34", 1, 0),
+  mutate(genderM = ifelse(gender == "M", 1, 0),
          age2 = ifelse(age == "35-39", 1, 0),
          age3 = ifelse(age == "40-44", 1, 0),
          age4 = ifelse(age == "45-49", 1, 0)) %>% 
@@ -104,24 +103,6 @@ ads.s <- ads %>%
 
 # make a train data sets that scaled and convert them to be a matrix cause kohonen function accept numeric matrix
 ads.train <- as.matrix(scale(ads.s[,-1]))
-```
-
-```{r}
-ads.train <- as.matrix(scale(ads.s[-1]))
-som.grid <- somgrid(xdim =3, ydim=3, topo= "hexagonal")
-set.seed(100)
-ads.som <- som(ads.train, som.grid, rlen = 500)
-
-plot(ads.som, "mapping")
-```
-```{r}
-ads.som$unit.classif
-```
-```{r, fig.width=20}
-plot(ads.som, "codes")
-```
-```{r}
-plot(ads.som, "count")
 ```
 
 
@@ -132,7 +113,7 @@ ads.grid <- somgrid(xdim = 10, ydim = 10, topo = "hexagonal")
 
 # make a SOM model
 set.seed(100)
-ads.model <- som(ads.train, ads.grid, rlen = 500, keep.data = TRUE,
+ads.model <- som(ads.train, ads.grid, rlen = 500, radius = 2.5, keep.data = TRUE,
                   dist.fcts = "euclidean")
 # str(ads.model)
 ```
@@ -141,7 +122,7 @@ From that summary of `ads.model` we know that our som grid has 10x10 dimension.
 # Unsupervised SOM
 ## Visualize of SOM {.tabset .tabset-fade .tabset-pills}
 
-Before visualize SOM model, let's explore list of SOM model. If we want to know that our data position in maps, we look it in `unit.classif`. Each values represent the node number to which this application belong. For example, in first value of application, 1 means that in first application has been claaified into 1 particular nodes. 
+Before visualize SOM model, let's explore list of SOM model. If we want to know that our data position in maps, we look it in `unit.classif`. Each values represent the node number to which this application belong. For example, in first value of application, 12 means that in first application has been claaified into 12 particular nodes. 
 ```{r, eval=FALSE}
 ads.model$unit.classif
 ```
@@ -155,11 +136,6 @@ plot(ads.model, type = "mapping", pchs = 19, shape = "round")
 
 ```{r}
 head(data.frame(ads.train), 20)
-```
-
-
-```{r, fig.width=20}
-plot(ads.som, "codes")
 ```
 
 ```{r, fig.width=20}
@@ -198,14 +174,14 @@ plot(ads.model, type = "dist.neighbours")
 
 Heatmaps are perhaps the most important visualisation possible for Self-Organising Maps.  A SOM heatmap allows the visualisation of the distribution of a single variable across the map. Typically, a SOM investigative process involves the creation of multiple heatmaps, and then the comparison of these heatmaps to identify interesting areas on the map. It is important to remember that the individual sample positions do not move from one visualisation to another, the map is simply coloured by different variables.
 The default Kohonen heatmap is created by using the type “heatmap”, and then providing one of the variables from the set of node weights. In this case we visualise the average education level on the SOM.
-```{r, fig.width=5}
+```{r, fig.width=20}
 heatmap.som <- function(model){
-  for (i in 1:12) {
+  for (i in 1:10) {
    plot(model, type = "property", property = getCodes(model)[,i], 
         main = colnames(getCodes(model))[i]) 
   }
 }
-heatmap.som(ads.som)
+heatmap.som(ads.model)
 ```
 
 From the heatmap that is formed, we can know which nodes have the characteristics of each variable whose value is high and the value is low.
@@ -215,13 +191,14 @@ From the heatmap that is formed, we can know which nodes have the characteristic
 Then we want to try to clustering every observation that we have without looking the labels of `xyz_campaign_id`. Like making cluster using k-means, we must determine the number of cluster that we want to make. In this case, we want to use elbow method to determine number of cluster.
 
 
-```{r, fig.width=20}
+```{r, fig.width=20, message=FALSE}
 library(factoextra)
 set.seed(100)
 fviz_nbclust(ads.model$codes[[1]], kmeans, method = "wss")
 set.seed(100)
 clust <- kmeans(ads.model$codes[[1]], 6)
 
+# clustering using hierarchial
 # cluster.som <- cutree(hclust(dist(ads.model$codes[[1]])), 6)
 ```
 
@@ -238,13 +215,11 @@ The characteristics for each cluster :
  - Cluster 2 (orange) : gender Female, gender Male, age 40-44, interest middle
  - Cluster 3 (green light) : gender Female, gender Male,  age 45-49, interest high, impression middle, clicks middle
  - Cluster 4 (green) : interest high, impression high, clicks high, spent high, gender Male, age 30-34, total conversion high, approved conversion high
- - Cluster 5 (turqois) : gender Female, age 45-49, interest middle, clicks and spent low
- - Cluster 6 (blue) : gender Female, age 30-34, interest high
+ - Cluster 5 (turqois) : gender Male, age 45-49, interest high, clicks and spent low
+ - Cluster 6 (blue) : gender Female, age 45-49, interest, impression, clicks, spent, total_conversion low.
 
 ```{r}
 # know cluster each data
-# ads.model$codes
-
 ads.cluster <- data.frame(ads.s, cluster = clust$cluster[ads.model$unit.classif])
 tail(ads.cluster, 10)
 
@@ -331,11 +306,8 @@ Happy trying!
 
 [^3] [Lynn, Shane. Self-Organizing Maps for Customer Segementation using R.](https://www.shanelynn.ie/self-organising-maps-for-customer-segmentation-using-r/)
 
-[^4] [](https://www.superdatascience.com/blogs/self-organizing-maps-soms-how-do-self-organizing-maps-learn-part-1/)
+[^4] [Self Organizing Maps](https://www.superdatascience.com/blogs/self-organizing-maps-soms-how-do-self-organizing-maps-learn-part-1/)
 
-[^5] [](https://www.superdatascience.com/blogs/the-ultimate-guide-to-self-organizing-maps-soms)
-
-
-
+[^5] [The Ultimate Guide to Self Organizing Maps (SOMs)](https://www.superdatascience.com/blogs/the-ultimate-guide-to-self-organizing-maps-soms)
  
  
