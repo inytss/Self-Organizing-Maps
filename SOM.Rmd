@@ -20,23 +20,24 @@ library(dplyr)
 ```
 
 # Introduction Self-Organizing Maps (SOM)
-Self-Organizing Maps first introduce by Teuvo Kohonen. According to the `Wiki`, Self-Organizing Map (SOM) or self-organizing feature map (SOFM) is a type of artificial neural network (ANN) that is trained using unsupervised learning to produce a low-dimensional (typically two-dimensional), discretized representation of the input space of the training samples, called a map, and is therefore a method to do dimensionality reduction.[^1] SOM are an unsupervised data visualisation technique that can be used to visualise high-dimensional data sets in lower (typically 2) dimensional representations.[^2] SOM also represent clustering concept by grouping the similar features together. So, SOM can use to cluster high-dimensional data sets by doing dimensionality reduction and visualize it using maps.
+
+Self-Organizing Maps first introduce by Teuvo Kohonen. According to the `Wiki`, Self-Organizing Map (SOM) or self-organizing feature map (SOFM) is a type of artificial neural network (ANN) that is trained using unsupervised learning to produce a low-dimensional (typically two-dimensional), discretized representation of the input space of the training samples, called a map, and is therefore a method to do dimensionality reduction.[^1] SOM also represent clustering concept by grouping the similar features to be in a group. So, SOM can use to cluster high-dimensional data sets by doing dimensionality reduction and visualize it using maps.
 
 <center> ![](arsitektur.PNG) </center>
 
-Each data point in the data set recognizes themselves by competeting for representation. SOM mapping steps starts from initializing the weight vectors. From there a sample vector is selected randomly and the map of weight vectors is searched to find which weight best represents that sample. Each weight vector has neighborhood weights that are close to it. The weight that is chosen is rewarded by being able to become more like that randomly selected sample vector. The neighbors of that weight are also rewarded by being able to become more like the chosen sample vector. This allows the map to grow and form different shapes. Most generally, they form square/rectangular/hexagonal/L shapes in 2D feature space.
+Each data point in the dataset recognized each other to represent one group. The first step in SOM is inisialize weight of vector. From initializing each weight of vector, there were a vector that randomly selected and looking for the map of weight vector to find the weight that represent those sample. Each weight vector has weight in closer vector. Closer vector will called as neighbor. Each neighbor will giving weight by some vector that ramdomly selected. From this step will create some map that has various shape. In general, the map is shaped by square or hexagonal in two dimensional space. 
 
 SOM calculate the distance of each input vector by each weight of nodes. Distance that usually used is Euclidean distance.  
 
 *Algoritma SOM :*
 
- - Preparing input data for training data sets.
- - Each node’s weights are initialized. A vector is chosen at random from the set of training data.
- - Calculate the distance of each node. The winning node is commonly known as the Best Matching Unit (BMU).
- - Updating of weight, then calculate again which one's weights are most like the input vectors. 
- - Every BMU has a neighbour then calculated. The amout of neighbour is decrease over time. 
- - The winning weight is rewarded with becoming more like the sample vector. The nighbors also become more like the sample vector. The closer a node is to the BMU, the more its weights get altered and the farther away the neighbor is from the BMU, the less it learns.
- - Repeat the 2-5 step until every node getting close to input vectors. 
+1. Preparing input data for training datasets.
+2. Each node’s weights are initialized. A vector is chosen by randomly selected in training dataset. 
+3. Calculate the distance of each node. The winning node is commonly known as the Best Matching Unit (BMU).
+4. Updating of weight, then calculate again which one's weights are most like the input vectors. 
+5. Every BMU has a neighbour then calculated. The amout of neighbour is decrease over time. 
+6. The winning weight is rewarded with becoming more like the sample vector. The neighbors also become more like the sample vector. The closer a nodes to the BMU, the more its weights get altered and the farther away the neighbor from the BMU, the less it learns.
+7. Repeat the 2-5 step until every node getting close to input vectors. 
  
  <center> ![](som-training.png) </center>
  
@@ -46,7 +47,7 @@ SOM calculate the distance of each input vector by each weight of nodes. Distanc
 2. Fantasy league analysis
 3. Cyber profilling criminals
 4. Identifying crime
-5. Etc
+5. etc.
 
 
 # SOM Analysis
@@ -146,14 +147,14 @@ At the first node, we can say that the input data entered on the first node is c
 
 ### Training Progress
 
-As the SOM training iterations progress, the distance from each node’s weights to the samples represented by that node is reduced. Ideally, this distance should reach a minimum plateau. This plot option shows the progress over time. If the curve is continually decreasing, more iterations are required.
+In the SOM training iterations progress, the distance from each node’s weights to the samples represented by that node is reduced. In the progress, the distance should decrease over time and reach minimum distance. This plot shows the progress over time of decreasing distance. If in this training progress curve is continually decreasing, we should add more iteration.
 ```{r}
 plot(ads.model, type = "changes")
 ```
 
 ### Node Counts
 
-The Kohonen packages allows us to visualise the count of how many samples are mapped to each node on the map. This metric can be used as a measure of map quality – ideally the sample distribution is relatively uniform. Large values in some map areas suggests that a larger map would be benificial. Empty nodes indicate that your map size is too big for the number of samples. Aim for at least 5-10 samples per node when choosing map size.
+The Kohonen packages allows us to visualize how many samples are mapped to each node on the map. This metric can be used as a measure of map quality. In general, the sample distribution is uniform. Large values in some map areas suggests that a larger map would be benificial. If you find the empty nodes, it indicates that your map size is too big for your dataset. It's better when in your nodes has at least 5-10 samples when creating and choose the map size.
 
 ```{r, fig.width=20}
 plot(ads.model, type = "counts")
@@ -172,7 +173,8 @@ plot(ads.model, type = "dist.neighbours")
 
 ### Heatmaps
 
-Heatmaps are perhaps the most important visualisation possible for Self-Organising Maps.  A SOM heatmap allows the visualisation of the distribution of a single variable across the map. Typically, a SOM investigative process involves the creation of multiple heatmaps, and then the comparison of these heatmaps to identify interesting areas on the map. It is important to remember that the individual sample positions do not move from one visualisation to another, the map is simply coloured by different variables.
+Heatmaps are the most important visualization in SOM. SOM heatmap visualize the distribution of single variable across the map. In general, SOM creating multiple heatmaps to find interesting area by comparing each heatmaps. Remember that each individual sample not move from their position in each heatmaps, but it colored by different variables.
+
 The default Kohonen heatmap is created by using the type “heatmap”, and then providing one of the variables from the set of node weights. In this case we visualise the average education level on the SOM.
 ```{r, fig.width=20}
 heatmap.som <- function(model){
@@ -252,7 +254,6 @@ testXY <- list(independent = testX, dependent = test.label)
 set.seed(100)
 class <- xyf(trainX, classvec2classmat(train.label), ads.grid, rlen = 500)
 ```
-
 
 ```{r}
 plot(class, type = "changes")
