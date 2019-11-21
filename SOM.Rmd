@@ -21,7 +21,7 @@ library(dplyr)
 
 # Introduction Self-Organizing Maps (SOM)
 
-Self-Organizing Maps first introduce by Teuvo Kohonen. According to the `Wiki`, Self-Organizing Map (SOM) or self-organizing feature map (SOFM) is a type of artificial neural network (ANN) that is trained using unsupervised learning to produce a low-dimensional (typically two-dimensional), discretized representation of the input space of the training samples, called a map, and is therefore a method to do dimensionality reduction.[^1] SOM also represent clustering concept by grouping the similar features to be in a group. So, SOM can use to cluster high-dimensional data sets by doing dimensionality reduction and visualize it using maps.
+Self-Organizing Maps first introduce by Teuvo Kohonen. According to the `Wiki`, Self-Organizing Map (SOM) or self-organizing feature map (SOFM) is a type of artificial neural network (ANN) that is trained using unsupervised learning to produce a low-dimensional (typically two-dimensional), discretized representation of the input space of the training samples, called a map, and is therefore a method to do dimensionality reduction[^1]. SOM also represent clustering concept by grouping the similar features to be in a group. So, SOM can use to cluster high-dimensional data sets by doing dimensionality reduction and visualize it using maps[^2].
 
 <center> ![](arsitektur.PNG) </center>
 
@@ -29,7 +29,7 @@ Each data point in the dataset recognized each other to represent one group. The
 
 SOM calculate the distance of each input vector by each weight of nodes. Distance that usually used is Euclidean distance.  
 
-*Algoritma SOM :*
+*Algoritma SOM[^3] :*
 
 1. Preparing input data for training datasets.
 2. Each node’s weights are initialized. A vector is chosen by randomly selected in training dataset. 
@@ -43,7 +43,7 @@ SOM calculate the distance of each input vector by each weight of nodes. Distanc
  
 *Implementation use case for SOM algorithm :*
 
-1. Customer segmentation
+1. Customer segmentation[^3]
 2. Fantasy league analysis
 3. Cyber profilling criminals
 4. Identifying crime
@@ -154,7 +154,7 @@ plot(ads.model, type = "changes")
 
 ### Node Counts
 
-The Kohonen packages allows us to visualize how many samples are mapped to each node on the map. This metric can be used as a measure of map quality. In general, the sample distribution is uniform. Large values in some map areas suggests that a larger map would be benificial. If you find the empty nodes, it indicates that your map size is too big for your dataset. It's better when in your nodes has at least 5-10 samples when creating and choose the map size.
+The Kohonen packages allows us to visualize how many samples are mapped to each node on the map. This metric can be used as a measure of map quality. In general, the sample distribution is uniform. Large values in some map areas suggests that a larger map would be benificial. If you find the empty nodes, it indicates that your map size is too big for your dataset. It's better when in your nodes has at least 5-10 samples when creating and choose the map size[^4].
 
 ```{r, fig.width=20}
 plot(ads.model, type = "counts")
@@ -173,7 +173,7 @@ plot(ads.model, type = "dist.neighbours")
 
 ### Heatmaps
 
-Heatmaps are the most important visualization in SOM. SOM heatmap visualize the distribution of single variable across the map. In general, SOM creating multiple heatmaps to find interesting area by comparing each heatmaps. Remember that each individual sample not move from their position in each heatmaps, but it colored by different variables.
+Heatmaps are the most important visualization in SOM. SOM heatmap visualize the distribution of single variable across the map[^5]. In general, SOM creating multiple heatmaps to find interesting area by comparing each heatmaps. Remember that each individual sample not move from their position in each heatmaps, but it colored by different variables.
 
 The default Kohonen heatmap is created by using the type “heatmap”, and then providing one of the variables from the set of node weights. In this case we visualise the average education level on the SOM.
 ```{r, fig.width=20}
@@ -301,14 +301,14 @@ Happy trying!
  
 # Annotation
 
-[^1] [Wikipedia. Self-organizing Maps.](https://en.wikipedia.org/wiki/Self-organizing_map)
+[^1]: [Wikipedia. Self-organizing Maps.](https://en.wikipedia.org/wiki/Self-organizing_map)
 
-[^2] [Ralhan, A. 2018. _Self Organizing Maps_.](https://towardsdatascience.com/self-organizing-maps-ff5853a118d4)
+[^2]: [Ralhan, A. 2018. _Self Organizing Maps_.](https://towardsdatascience.com/self-organizing-maps-ff5853a118d4)
 
-[^3] [Lynn, Shane. Self-Organizing Maps for Customer Segementation using R.](https://www.shanelynn.ie/self-organising-maps-for-customer-segmentation-using-r/)
+[^3]: [Lynn, Shane. Self-Organizing Maps for Customer Segementation using R.](https://www.shanelynn.ie/self-organising-maps-for-customer-segmentation-using-r/)
 
-[^4] [Self Organizing Maps](https://www.superdatascience.com/blogs/self-organizing-maps-soms-how-do-self-organizing-maps-learn-part-1/)
+[^4]: [Self Organizing Maps](https://www.superdatascience.com/blogs/self-organizing-maps-soms-how-do-self-organizing-maps-learn-part-1/)
 
-[^5] [The Ultimate Guide to Self Organizing Maps (SOMs)](https://www.superdatascience.com/blogs/the-ultimate-guide-to-self-organizing-maps-soms)
+[^5]: [The Ultimate Guide to Self Organizing Maps (SOMs)](https://www.superdatascience.com/blogs/the-ultimate-guide-to-self-organizing-maps-soms)
  
  
