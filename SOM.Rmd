@@ -1,16 +1,9 @@
 ---
 title: "Self-Organizing Maps"
 author: "Inayatus Sholikhah"
-<<<<<<< HEAD
 date: "Thursday, November 21, 2019"
-=======
->>>>>>> abbdd2b96355f916a4336baa759812fde0f0249a
 output:
-  word_document: 
-    toc: yes
-    toc_depth: 2
   rmdformats::readthedown:
-<<<<<<< HEAD
     gallery: no
     highlight: default
     lightbox: yes
@@ -22,16 +15,6 @@ output:
   word_document:
     toc: yes
     toc_depth: 2
-=======
-    self_contained : yes
-    thumbnails: true
-    lightbox: true
-    gallery: false
-    highlight: default
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
->>>>>>> abbdd2b96355f916a4336baa759812fde0f0249a
 ---
 
 ```{r setup, include=FALSE}
@@ -203,13 +186,7 @@ plot(ads.model, type = "changes")
 ### Node Counts
 
 The Kohonen package allows us to visualize the count of how many samples are mapped to each node on the map. This metric can be used as a measure of map quality–ideally, the sample distribution is relatively uniform. Large values in some map areas suggest that a larger map would be beneficial. Empty nodes indicate that your map size is too big for the number of samples. Aim for at least 5-10 samples per node when choosing map size.
-<<<<<<< HEAD
 
-
-=======
-
-
->>>>>>> abbdd2b96355f916a4336baa759812fde0f0249a
 ```{r, fig.width=30}
 plot(ads.model, type = "counts")
 ```
@@ -227,15 +204,11 @@ plot(ads.model, type = "dist.neighbours")
 ### Heatmaps
 
 Heatmaps are perhaps the most important visualization possible for Self-Organising Maps. A SOM heatmap allows the visualization of the distribution of a single variable across the map. Typically, a SOM investigative process involves the creation of multiple heatmaps and then the comparison of these heatmaps to identify interesting areas on the map. It is important to remember that the individual sample positions do not move from one visualization to another, the map is simply colored by different variables. 
-<<<<<<< HEAD
 
 The default Kohonen heatmap is created by using the type “heatmap”, and then providing one of the variables from the set of node weights. In this case, we visualize the average education level on the SOM.
 
-=======
-
 The default Kohonen heatmap is created by using the type “heatmap”, and then providing one of the variables from the set of node weights. In this case, we visualize the average education level on the SOM.
 
->>>>>>> abbdd2b96355f916a4336baa759812fde0f0249a
 ```{r, fig.width=30}
 heatmap.som <- function(model){
   for (i in 1:10) {
